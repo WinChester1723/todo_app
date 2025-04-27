@@ -1,8 +1,9 @@
 import 'package:hive/hive.dart';
 import 'package:todo_app/domain/entities/task.dart';
 
-part 'task_model.g.dart'; // Для генерации адаптера
+part 'task_model.g.dart';
 
+/// Модель задачи для хранения в Hive.
 @HiveType(typeId: 0)
 class TaskModel extends HiveObject {
   @HiveField(0)
@@ -15,7 +16,7 @@ class TaskModel extends HiveObject {
   final String description;
 
   @HiveField(3)
-  final String priority; // Храним как строку, конвертируем в TaskPriority
+  final String priority;
 
   @HiveField(4)
   final String? category;
@@ -36,18 +37,21 @@ class TaskModel extends HiveObject {
     required this.createdAt,
   });
 
-  // Конвертация в доменную модель
+  /// Конвертирует TaskModel в доменную сущность Task.
   Task toEntity() => Task(
         id: id,
         title: title,
         description: description,
-        priority: TaskPriority.values.firstWhere((e) => e.toString() == priority),
+        priority: TaskPriority.values.firstWhere(
+          (e) => e.toString() == priority,
+          orElse: () => TaskPriority.low,
+        ),
         category: category,
         isCompleted: isCompleted,
         createdAt: createdAt,
       );
 
-  // Создание из доменной модели
+  /// Создаёт TaskModel из доменной сущности Task.
   factory TaskModel.fromEntity(Task task) => TaskModel(
         id: task.id,
         title: task.title,

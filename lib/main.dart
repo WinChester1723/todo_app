@@ -7,6 +7,7 @@ import 'package:todo_app/presentation/blocs/task/task_bloc.dart';
 import 'package:todo_app/presentation/blocs/task/task_event.dart';
 import 'package:todo_app/presentation/screens/home_screen.dart';
 
+/// Инициализирует приложение, настраивает Hive и зависимости, затем запускает приложение.
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
@@ -15,6 +16,7 @@ void main() async {
   runApp(const TodoApp());
 }
 
+/// Корневое приложение ToDo с поддержкой BLoC и тем.
 class TodoApp extends StatelessWidget {
   const TodoApp({super.key});
 
@@ -46,9 +48,12 @@ class TodoApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(
             seedColor: Colors.blue[700]!,
             brightness: Brightness.dark,
-            surface: Colors.grey[800],
+            surface: Colors.grey[850], // Улучшенный контраст для тёмной темы
+            onSurface: Colors.white, // Текст на поверхностях (например, карточки, фон)
             primary: Colors.blue[700],
+            onPrimary: Colors.white, // Текст/иконки на primary цвете
             secondary: Colors.grey[700],
+            onSecondary: Colors.white, // Текст/иконки на secondary цвете
           ),
           appBarTheme: const AppBarTheme(
             backgroundColor: Colors.blue,

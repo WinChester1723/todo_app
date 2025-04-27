@@ -6,8 +6,8 @@ plugins {
 
 android {
     namespace = "com.example.todo_app"
-    compileSdk = 35 // Явно указываем
-    ndkVersion = "27.0.12077973" // Указываем нужную версию NDK
+    compileSdk = 35
+    ndkVersion = "27.0.12077973"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -18,9 +18,19 @@ android {
         jvmTarget = JavaVersion.VERSION_11.toString()
     }
 
+    signingConfigs {
+        create("release") {
+            // Для продакшена создай key.jks и укажи свои данные
+            storeFile = file("key.jks")
+            storePassword = ""
+            keyAlias = "todoappkey"
+            keyPassword = ""
+        }
+    }
+
     defaultConfig {
         applicationId = "com.example.todo_app"
-        minSdk = flutter.minSdkVersion
+        minSdk = 23 // Устанавливаем minSdk 23 для охвата большего числа устройств
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
@@ -28,7 +38,10 @@ android {
 
     buildTypes {
         release {
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.getByName("release")
+            isMinifyEnabled = true // Включаем минификацию кода
+            isShrinkResources = true // Уменьшаем размер ресурсов
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
 }

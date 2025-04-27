@@ -10,7 +10,11 @@ import 'package:todo_app/presentation/screens/task_add_screen.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
-  Widget _buildTaskTile(Task task, Animation<double> animation, BuildContext context) {
+  Widget _buildTaskTile(
+    Task task,
+    Animation<double> animation,
+    BuildContext context,
+  ) {
     return FadeTransition(
       opacity: animation,
       child: Dismissible(
@@ -37,7 +41,10 @@ class HomeScreen extends StatelessWidget {
           title: Text(
             task.title,
             style: TextStyle(
-              decoration: task.isCompleted ? TextDecoration.lineThrough : TextDecoration.none,
+              decoration:
+                  task.isCompleted
+                      ? TextDecoration.lineThrough
+                      : TextDecoration.none,
               color: task.isCompleted ? Colors.grey : null,
             ),
           ),
@@ -84,7 +91,9 @@ class HomeScreen extends StatelessWidget {
               final currentState = context.read<TaskBloc>().state;
               context.read<TaskBloc>().add(
                 SortTasks(
-                  ascending: !(currentState is TaskLoaded && currentState.isSortedAscending),
+                  ascending:
+                      !(currentState is TaskLoaded &&
+                          currentState.isSortedAscending),
                 ),
               );
             },
@@ -95,16 +104,21 @@ class HomeScreen extends StatelessWidget {
                   state is TaskLoaded ? (state.categoryFilter ?? 'All') : 'All';
               return DropdownButton<String>(
                 value: selectedCategory,
-                items: categories
-                    .map((category) => DropdownMenuItem(
-                          value: category,
-                          child: Text(category),
-                        ))
-                    .toList(),
+                items:
+                    categories
+                        .map(
+                          (category) => DropdownMenuItem(
+                            value: category,
+                            child: Text(category),
+                          ),
+                        )
+                        .toList(),
                 onChanged: (value) {
                   if (value != null) {
                     context.read<TaskBloc>().add(
-                      FilterTasks(categoryFilter: value == 'All' ? null : value),
+                      FilterTasks(
+                        categoryFilter: value == 'All' ? null : value,
+                      ),
                     );
                   }
                 },

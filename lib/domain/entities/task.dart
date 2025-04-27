@@ -1,7 +1,9 @@
 import 'package:equatable/equatable.dart';
 
+/// Перечисление для приоритетов задач.
 enum TaskPriority { low, medium, high }
 
+/// Сущность задачи, представляющая бизнес-логику.
 class Task extends Equatable {
   final String id;
   final String title;
@@ -21,7 +23,8 @@ class Task extends Equatable {
     required this.createdAt,
   });
 
-Task copyWith({
+  /// Создаёт копию задачи с обновлёнными полями.
+  Task copyWith({
     String? id,
     String? title,
     String? description,
@@ -54,6 +57,6 @@ Task copyWith({
 
   @override
   String toString() {
-    return 'Task(id: $id, title: $title, category: $category, priority: $priority)';
+    return 'Task(id: $id, title: $title, description: $description, priority: $priority, category: $category, isCompleted: $isCompleted, createdAt: $createdAt)';
   }
 }
