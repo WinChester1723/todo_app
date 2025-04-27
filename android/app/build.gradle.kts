@@ -22,9 +22,9 @@ android {
         create("release") {
             // Для продакшена создай key.jks и укажи свои данные
             storeFile = file("key.jks")
-            storePassword = ""
+            storePassword = "172327"
             keyAlias = "todoappkey"
-            keyPassword = ""
+            keyPassword = "172327"
         }
     }
 
