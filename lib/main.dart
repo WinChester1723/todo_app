@@ -48,12 +48,12 @@ class TodoApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(
             seedColor: Colors.blue[700]!,
             brightness: Brightness.dark,
-            surface: Colors.grey[850], // Улучшенный контраст для тёмной темы
-            onSurface: Colors.white, // Текст на поверхностях (например, карточки, фон)
+            surface: Colors.grey[850],
+            onSurface: Colors.white,
             primary: Colors.blue[700],
-            onPrimary: Colors.white, // Текст/иконки на primary цвете
+            onPrimary: Colors.white,
             secondary: Colors.grey[700],
-            onSecondary: Colors.white, // Текст/иконки на secondary цвете
+            onSecondary: Colors.white,
           ),
           appBarTheme: const AppBarTheme(
             backgroundColor: Colors.blue,

@@ -10,11 +10,13 @@ import 'package:todo_app/presentation/blocs/task/task_state.dart';
 
 /// BLoC для управления задачами (загрузка, добавление, обновление, удаление, фильтрация, сортировка).
 class TaskBloc extends Bloc<TaskEvent, TaskState> {
-  final TaskRepository _taskRepository = getIt<TaskRepository>();
+  final TaskRepository _taskRepository;
   final Logger _logger = Logger();
   List<Task> _allTasks = [];
 
-  TaskBloc() : super(TaskInitial()) {
+  TaskBloc({TaskRepository? taskRepository}) 
+      : _taskRepository = taskRepository ?? getIt<TaskRepository>(),
+        super(TaskInitial()) {
     on<LoadTasks>(_onLoadTasks);
     on<AddTask>(_onAddTask);
     on<UpdateTask>(_onUpdateTask);
