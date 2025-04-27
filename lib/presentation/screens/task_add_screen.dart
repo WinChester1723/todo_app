@@ -5,20 +5,45 @@ import 'package:todo_app/presentation/blocs/task/task_bloc.dart';
 import 'package:todo_app/presentation/blocs/task/task_event.dart';
 import 'package:uuid/uuid.dart';
 
-class TaskAddScreen extends StatelessWidget {
-  final _formKey = GlobalKey<FormState>();
-  final _titleController = TextEditingController();
-  final _descriptionController = TextEditingController();
-  final List<String> _categories = ['Work', 'Personal', 'Other'];
-  String? _selectedCategory = 'Work'; // Значение по умолчанию
-  TaskPriority _selectedPriority = TaskPriority.medium;
+/// Экран для добавления или редактирования задачи.
+class TaskAddScreen extends StatefulWidget {
+  final Task? task;
 
-  TaskAddScreen({super.key});
+  const TaskAddScreen({super.key, this.task});
+
+  @override
+  State<TaskAddScreen> createState() => _TaskAddScreenState();
+}
+
+class _TaskAddScreenState extends State<TaskAddScreen> {
+  final _formKey = GlobalKey<FormState>();
+  late final TextEditingController _titleController;
+  late final TextEditingController _descriptionController;
+  final List<String> _categories = ['Work', 'Personal', 'Other'];
+  late String? _selectedCategory;
+  late TaskPriority _selectedPriority;
+
+  @override
+  void initState() {
+    super.initState();
+    // Инициализация контроллеров и значений
+    _titleController = TextEditingController(text: widget.task?.title ?? '');
+    _descriptionController = TextEditingController(text: widget.task?.description ?? '');
+    _selectedCategory = widget.task?.category ?? 'Work';
+    _selectedPriority = widget.task?.priority ?? TaskPriority.medium;
+  }
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _descriptionController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Add Task')),
+      appBar: AppBar(title: Text(widget.task == null ? 'Add Task' : 'Edit Task')),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -56,14 +81,16 @@ class TaskAddScreen extends StatelessWidget {
                     border: OutlineInputBorder(),
                   ),
                   value: _selectedCategory,
-                  items: _categories.map((category) {
-                    return DropdownMenuItem(
-                      value: category,
-                      child: Text(category),
-                    );
-                  }).toList(),
+                  items: _categories
+                      .map((category) => DropdownMenuItem(
+                            value: category,
+                            child: Text(category),
+                          ))
+                      .toList(),
                   onChanged: (value) {
-                    _selectedCategory = value;
+                    setState(() {
+                      _selectedCategory = value;
+                    });
                   },
                 ),
                 const SizedBox(height: 16),
@@ -73,15 +100,17 @@ class TaskAddScreen extends StatelessWidget {
                     border: OutlineInputBorder(),
                   ),
                   value: _selectedPriority,
-                  items: TaskPriority.values.map((priority) {
-                    return DropdownMenuItem(
-                      value: priority,
-                      child: Text(priority.toString().split('.').last),
-                    );
-                  }).toList(),
+                  items: TaskPriority.values
+                      .map((priority) => DropdownMenuItem(
+                            value: priority,
+                            child: Text(priority.toString().split('.').last),
+                          ))
+                      .toList(),
                   onChanged: (value) {
                     if (value != null) {
-                      _selectedPriority = value;
+                      setState(() {
+                        _selectedPriority = value;
+                      });
                     }
                   },
                 ),
@@ -91,21 +120,26 @@ class TaskAddScreen extends StatelessWidget {
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         final task = Task(
-                          id: const Uuid().v4(),
+                          id: widget.task?.id ?? const Uuid().v4(),
                           title: _titleController.text,
                           description: _descriptionController.text,
                           priority: _selectedPriority,
-                          category: _selectedCategory ?? 'Work', // Значение по умолчанию
-                          createdAt: DateTime.now(),
+                          category: _selectedCategory ?? 'Work',
+                          isCompleted: widget.task?.isCompleted ?? false,
+                          createdAt: widget.task?.createdAt ?? DateTime.now(),
                         );
-                        context.read<TaskBloc>().add(AddTask(task));
+                        if (widget.task == null) {
+                          context.read<TaskBloc>().add(AddTask(task));
+                        } else {
+                          context.read<TaskBloc>().add(UpdateTask(task));
+                        }
                         Navigator.pop(context);
                       }
                     },
-                    child: const Text('Save'),
+                    child: Text(widget.task == null ? 'Save' : 'Update'),
                   ),
                 ),
-                const SizedBox(height: 16), // Дополнительное пространство внизу
+                const SizedBox(height: 16),
               ],
             ),
           ),

@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_app/di/injection.dart';
+import 'package:todo_app/injection.dart';
 import 'package:todo_app/domain/entities/task.dart';
 import 'package:todo_app/domain/repositories/task_repository.dart';
 import 'package:todo_app/presentation/blocs/task/task_event.dart';

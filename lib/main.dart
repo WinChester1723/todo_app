@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:todo_app/data/models/task_model.dart';
-import 'package:todo_app/di/injection.dart';
+import 'package:todo_app/injection.dart';
 import 'package:todo_app/presentation/blocs/task/task_bloc.dart';
 import 'package:todo_app/presentation/blocs/task/task_event.dart';
 import 'package:todo_app/presentation/screens/home_screen.dart';
