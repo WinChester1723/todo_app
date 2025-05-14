@@ -1,0 +1,48 @@
+name: todo_app
+description: "Corporate ToDo application with elegant design"
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.7.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: 1.0.8
+  flutter_bloc: 9.1.0
+  provider: 6.1.2
+  hive: 2.2.3
+  hive_flutter: 1.1.0
+  equatable: 2.0.5
+  get_it: 8.0.3
+  uuid: 4.5.0
+  dartz: 0.10.1
+  logger: 2.0.2
+  google_fonts: 6.2.1 # Добавляем google_fonts
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: 5.0.0
+  mockito: 5.4.5
+  build_runner: 2.4.9
+  hive_generator: 2.0.1
+  flutter_launcher_icons: 0.13.1
+  flutter_native_splash: 2.4.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/app_icon.png # Путь к иконке
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/app_icon.png"
+
+flutter_native_splash:
+  color: "#2196F3" # Цвет фона splash screen (синий, соответствует теме)
+  image: assets/app_icon.png # Используем ту же иконку
+  android: true
+  ios: true

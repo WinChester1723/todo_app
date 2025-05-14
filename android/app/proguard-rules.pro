@@ -1,0 +1,3 @@
+-keep class io.flutter.** { *; }
+-keep class androidx.** { *; }
+-dontwarn io.flutter.embedding.**
